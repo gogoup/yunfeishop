@@ -1,0 +1,133 @@
+<form id="add-form" class="form-horizontal" role="form" data-toggle="validator" method="POST" action="">
+    {:token()}
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Group')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select name="row[group]" class="form-control selectpicker">
+                {foreach name="groupList" item="vo"}
+                <option value="{$key}" >{$vo}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Type')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select name="row[type]" id="c-type" class="form-control selectpicker">
+                {foreach name="typeList" item="vo"}
+                <option value="{$key}" {in name="key" value="string" }selected{/in}>{$vo}</option>
+                {/foreach}
+            </select>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="name" class="control-label col-xs-12 col-sm-2">{:__('Name')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="name" name="row[name]" value="" data-rule="required; length(3~30); remote(general/config/check)"/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="title" class="control-label col-xs-12 col-sm-2">{:__('Title')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="title" name="row[title]" value="" data-rule="required"/>
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-selectpage tf-selectpages">
+        <label for="c-selectpage-table" class="control-label col-xs-12 col-sm-2">{:__('Selectpage table')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select id="c-selectpage-table" name="row[setting][table]" class="form-control selectpicker" data-live-search="true">
+                <option value="">{:__('Please select table')}</option>
+            </select>
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-selectpage tf-selectpages">
+        <label for="c-selectpage-primarykey" class="control-label col-xs-12 col-sm-2">{:__('Selectpage primarykey')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select name="row[setting][primarykey]" class="form-control selectpicker" id="c-selectpage-primarykey"></select>
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-selectpage tf-selectpages">
+        <label for="c-selectpage-field" class="control-label col-xs-12 col-sm-2">{:__('Selectpage field')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <select name="row[setting][field]" class="form-control selectpicker" id="c-selectpage-field"></select>
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-selectpage tf-selectpages">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Selectpage conditions')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <dl class="fieldlist" data-name="row[setting][conditions]">
+                <dd>
+                    <ins>{:__('Field title')}</ins>
+                    <ins>{:__('Field value')}</ins>
+                </dd>
+
+                <dd><a href="javascript:;" class="append btn btn-sm btn-success"><i class="fa fa-plus"></i> {:__('Append')}</a></dd>
+                <textarea name="row[setting][conditions]" class="form-control hide" cols="30" rows="5"></textarea>
+            </dl>
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-array">
+        <label for="c-array-key" class="control-label col-xs-12 col-sm-2">{:__('Array key')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" name="row[setting][key]" value="" class="form-control" id="c-array-key">
+        </div>
+    </div>
+    <div class="form-group hidden tf tf-array">
+        <label for="c-array-value" class="control-label col-xs-12 col-sm-2">{:__('Array value')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" name="row[setting][value]" value="" class="form-control" id="c-array-value">
+        </div>
+    </div>
+    <div class="form-group hide" id="add-content-container">
+        <label for="content" class="control-label col-xs-12 col-sm-2">{:__('Content')}:</label>
+        <div class="col-xs-12 col-sm-8">
+                            <textarea name="row[content]" id="content" cols="30" rows="5" class="form-control" data-rule="required(content)">value1|title1
+value2|title2</textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="tip" class="control-label col-xs-12 col-sm-2">{:__('Tip')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input type="text" class="form-control" id="tip" name="row[tip]" value="" data-rule=""/>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="rule" class="control-label col-xs-12 col-sm-2">{:__('Rule')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <div class="input-group pull-left">
+                <input type="text" class="form-control" id="rule" name="row[rule]" value="" data-tip="{:__('Rule tips')}"/>
+                <span class="input-group-btn">
+                                    <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" type="button">{:__('Choose')}</button>
+                                    <ul class="dropdown-menu pull-right rulelist">
+                                        {volist name="ruleList" id="item"}
+                                        <li><a href="javascript:;" data-value="{$key}">{$item}<span class="text-muted">({$key})</span></a></li>
+                                        {/volist}
+                                    </ul>
+                                </span>
+            </div>
+            <span class="msg-box n-right" for="rule"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="extend" class="control-label col-xs-12 col-sm-2">{:__('Extend')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <textarea name="row[extend]" id="extend" cols="30" rows="5" class="form-control" data-tip="{:__('Extend tips')}" data-rule="required(extend)" data-msg-extend="当类型为自定义时，扩展属性不能为空"></textarea>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2">{:__('Default')}:</label>
+        <div class="col-xs-12 col-sm-8">
+            <input id="c-default"  class="form-control" name="row[default]" type="text" value="">
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-xs-12 col-sm-2"></label>
+        <div class="col-xs-12 col-sm-8">
+            <button type="submit" class="btn btn-success btn-embossed">{:__('OK')}</button>
+            <button type="reset" class="btn btn-default btn-embossed">{:__('Reset')}</button>
+        </div>
+    </div>
+
+</form>
+
+
